@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const MoodSchema = new mongoose.Schema({
+const moodSchema = new mongoose.Schema({
   // userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
 
   mood: { type: String, required: true },
@@ -8,4 +8,4 @@ const MoodSchema = new mongoose.Schema({
   is_active: { type: Boolean, default: true }, // New is_active field added
 });
 
-module.exports = mongoose.model('Mood', MoodSchema);
+module.exports = mongoose.model('Mood', moodSchema);

@@ -73,6 +73,7 @@ const signup = async (req, res) => {
       preferred_language,
       device_token,
       device_id,
+      
     });
 
     // Return success response
@@ -125,13 +126,22 @@ const signinWithEmailPassword = async (req, res) => {
   }
 
   try {
+    console.log("isverified....");
     // Find user by email
     const existingUser = await User.findOne({ email } );
-
+    
+    console.log("isverified",existingUser.isVerified);
     if (!existingUser) {
       return res.status(404).json({
         success: false,
         message: "User not found.",
+      });
+    }
+    
+    if (existingUser.isVerified == false) {
+      return res.status(404).json({
+        success: false,
+        message: "User not verified.",
       });
     }
 
@@ -144,6 +154,7 @@ const signinWithEmailPassword = async (req, res) => {
         message: "Invalid email or password.",
       });
     }
+    
 
     // Generate a JWT token
     const token = jwt.sign(
@@ -252,6 +263,56 @@ const signinWithEmail = async (req, res) => {
 
 // done
 // Verify OTP  on forget password
+// const verifyEmailOtp = async (req, res) => {
+//   const { email, otp } = req.body;
+
+//   // Validate input
+//   if (!email || !otp) {
+//     return res
+//       .status(400)
+//       .json({ success: false, message: "Email and OTP are required." });
+//   }
+
+//   try {
+//     // Check if the OTP exists in the database
+//     const existingUser = await User.findOne({ email_otp: otp });
+
+//     if (!existingUser || existingUser.email !== email ) {
+//       return res.status(400).json({ success: false, message: "Invalid OTP." });
+//     }
+
+//     // Check if OTP has expired
+//     if (new Date() > existingUser.expires_at) {
+//       return res
+//         .status(400)
+//         .json({ success: false, message: "OTP has expired." });
+//     }
+//        // Generate a JWT token
+//        const token = jwt.sign(
+//         { id: existingUser.id, email: existingUser.email,role: existingUser.role  },
+//         process.env.JWT_SECRET,
+//         // { expiresIn: "1h" } // Token expires in 1 hour
+//       );
+//       // const existingUser = await User.findOne({ email });
+//       // Use the `set` method to set the values on the instance
+//       existingUser.set({
+//         token: token, // Update the email_otp field
+//       });
+  
+//       // Save the updated instance back to the database
+//       await existingUser.save();
+
+//     return res.status(200).json({
+//       success: true,
+//       message: "OTP verified successfully.",
+//       token, // Return the JWT token
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ success: false, message: "Server error." });
+//   }
+// };
+
 const verifyEmailOtp = async (req, res) => {
   const { email, otp } = req.body;
 
@@ -266,7 +327,7 @@ const verifyEmailOtp = async (req, res) => {
     // Check if the OTP exists in the database
     const existingUser = await User.findOne({ email_otp: otp });
 
-    if (!existingUser || existingUser.email !== email ) {
+    if (!existingUser || existingUser.email !== email) {
       return res.status(400).json({ success: false, message: "Invalid OTP." });
     }
 
@@ -276,20 +337,22 @@ const verifyEmailOtp = async (req, res) => {
         .status(400)
         .json({ success: false, message: "OTP has expired." });
     }
-       // Generate a JWT token
-       const token = jwt.sign(
-        { id: existingUser.id, email: existingUser.email,role: existingUser.role  },
-        process.env.JWT_SECRET,
-        // { expiresIn: "1h" } // Token expires in 1 hour
-      );
-      // const existingUser = await User.findOne({ email });
-      // Use the `set` method to set the values on the instance
-      existingUser.set({
-        token: token, // Update the email_otp field
-      });
-  
-      // Save the updated instance back to the database
-      await existingUser.save();
+
+    // Generate a JWT token
+    const token = jwt.sign(
+      { id: existingUser.id, email: existingUser.email, role: existingUser.role },
+      process.env.JWT_SECRET
+    );
+
+    // Update user's token and set isVerified.email to true
+    existingUser.set({
+      token: token, // Update the token
+      email_otp: null, // Clear the OTP field
+      isVerified: true, // Mark email as verified
+    });
+
+    // Save the updated instance back to the database
+    await existingUser.save();
 
     return res.status(200).json({
       success: true,

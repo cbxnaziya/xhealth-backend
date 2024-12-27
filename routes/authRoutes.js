@@ -4,8 +4,8 @@ const router = express.Router();
 
 router.post('/signup', signup);
 router.post('/signin', signinWithEmailPassword);
-router.post('/signin-email', signinWithEmail);
-router.post('/verify-email-otp', verifyEmailOtp);
+
+router.post('/verify-email-otp', verifyEmailOtp);router.post('/signin-email', signinWithEmail);
 router.post('/signin-phone', signinWithPhone);
 router.post('/verify-phone-otp', verifyPhoneOtp);
 router.post('/signin-social', signinWithSocial);

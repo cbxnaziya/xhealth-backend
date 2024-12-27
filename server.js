@@ -15,10 +15,14 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+// users
 app.use('/api/auth', authRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/mood', moodRoutes);
 app.use('/api/users', userRoutes);
+
+// Admin
+app.use('/api/admin/auth', adminAuthRoutes);
 
 app.get("/abcd",async(req,res)=>{
     return res.status(200).json({message:"Hello"})

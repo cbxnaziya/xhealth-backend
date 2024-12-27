@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
   signin_type: { type: String, enum: ["email", "phone", "social"], default: "email" },
   social_id: { type: String }, // store social media user id if using social login
   token: { type: String },
+  isVerified: { type: Boolean, default: false }, // phone verification status
   role: { type: String, enum: ["admin", "user"], default: "user" },
 }, { timestamps: true });
 
