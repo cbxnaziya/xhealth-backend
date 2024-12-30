@@ -9,11 +9,15 @@ const client = require("twilio")(process.env.TWILIO_SID, process.env.TWILIO_AUTH
 const sendOtpEmail = async (email, otp) => {
   // Create reusable transporter object using SMTP transport
   const transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "mail.cyberx-infosystem.us",
     auth: {
       user: process.env.EMAIL_USER, // Your Gmail address
       pass: process.env.EMAIL_PASS, // Your Gmail password or app-specific password
     },
+    secure: true,  // Use SSL
+    port: 465,     // Gmail's secure port
+    // tls: {       rejectUnauthorized: false,  
+    // }
   });
 
   const mailOptions = {
