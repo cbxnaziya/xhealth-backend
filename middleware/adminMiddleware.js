@@ -1,6 +1,5 @@
 // Middleware to verify if the user has an 'admin' role
 const adminMiddleware = (req, res, next) => {
-  console.log("req.user.role:",req.role);
   
     // Check if the user has an 'admin' role
     if (req?.role !== 'admin') {

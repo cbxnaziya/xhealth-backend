@@ -4,7 +4,8 @@ const { sendOtpEmail, sendOtpPhone } = require("../utils/otpService");
 const { generateOtp } = require("../utils/function");
 const User = require("../models/User");
 const jwt = require('jsonwebtoken');
-const profile = require("../models/profile");
+const Profile = require("../models/Profile");
+
 
 
 // done
@@ -13,7 +14,6 @@ const profileSave = async (req, res) => {
  
     try {
       const { userId, gender, nickname, religion, mood, religious } = req.body;
-      console.log("profileSave......");
       
   
       // Validate required fields
@@ -22,7 +22,7 @@ const profileSave = async (req, res) => {
       }
   
       // Create a new profile instance
-      const newProfile = new profile({
+      const newProfile = new Profile({
         userId,
         gender,
         nickname,
@@ -45,13 +45,11 @@ const profileSave = async (req, res) => {
 };
 
 const updateProfile = async (req, res) => {
-  console.log(req.id,"req.id");
   const userId  = req.id;
   
   try {
     const {  ...fieldsToUpdate } = req.body;
 
-    console.log("updateProfile API called...");
 
     // Validate userId
     if (!userId) {
@@ -59,7 +57,7 @@ const updateProfile = async (req, res) => {
     }
 
     // Update the profile and return the updated document
-    const updatedProfile = await profile.findOneAndUpdate(
+    const updatedProfile = await Profile.findOneAndUpdate(
       { userId }, // Query to find the profile
       { $set: fieldsToUpdate }, // Update only provided fields
       { new: true } // Return the updated document

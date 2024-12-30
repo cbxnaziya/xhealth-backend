@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const ProfileSchema = new mongoose.Schema({
+const profileSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   gender: { type: String, enum: ['Male', 'Female', 'Other'], required: true },
   nickname: { type: String },
@@ -10,4 +10,4 @@ const ProfileSchema = new mongoose.Schema({
   timestamp: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model('Profile', ProfileSchema);
+module.exports = mongoose.model('Profile', profileSchema);

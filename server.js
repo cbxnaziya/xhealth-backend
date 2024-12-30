@@ -6,6 +6,7 @@ const moodRoutes = require('./routes/moodRoutes');
 // const moodRoutes = require('./routes/moodRoutes');
 const profileRoutes = require('./routes/profileRoutes');
 const userRoutes = require('./routes/userRoutes');
+const adminAuthRoutes = require('./routes/admin/adminAuthRoutes');
 const cors = require('cors')
 
 dotenv.config();

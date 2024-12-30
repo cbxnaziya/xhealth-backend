@@ -126,11 +126,9 @@ const signinWithEmailPassword = async (req, res) => {
   }
 
   try {
-    console.log("isverified....");
     // Find user by email
     const existingUser = await User.findOne({ email } );
     
-    console.log("isverified",existingUser.isVerified);
     if (!existingUser) {
       return res.status(404).json({
         success: false,
@@ -370,7 +368,6 @@ const verifyEmailOtp = async (req, res) => {
 // Signin with phone and OTP
 const signinWithPhone = async (req, res) => {
   const { phone, preferred_language, device_token, device_id ,country_code} = req.body;
-console.log("req.body",req.body);
 
   // Validate input
   if (!phone) {
@@ -629,6 +626,12 @@ const updatePassword = async (req, res) => {
     const existingUser = await User.findOne({
       email,
     });
+
+    if(!existingUser){
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found." });
+    }
 
     // // Check if OTP has expired
     // if (new Date() > otpRecord.expires_at) {
