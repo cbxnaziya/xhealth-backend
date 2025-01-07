@@ -45,9 +45,11 @@ const signup = async (req, res) => {
   }
 
   try {
-    const existingEmail = await User.findOne({ email });
+      // Convert the email variable to lowercase
+           const lowerCaseEmail = email.toLowerCase();
+    const existingEmail = await User.findOne({ email:lowerCaseEmail });
 
-    if (existingEmail?.email === email) {
+    if (existingEmail?.email === lowerCaseEmail) {
       return res
         .status(400)
         .json({ success: false, message: "Email already in use." });
@@ -67,7 +69,7 @@ const signup = async (req, res) => {
     // Create the new user
     const newUser = await User.create({
       name,
-      email,
+      email:lowerCaseEmail,
       password: hashedPassword,
       phone,
       preferred_language,
@@ -117,6 +119,7 @@ const signup = async (req, res) => {
 const signinWithEmailPassword = async (req, res) => {
   const { email, password } = req.body;
 
+
   // Validate input
   if (!email || !password) {
     return res.status(400).json({
@@ -126,8 +129,10 @@ const signinWithEmailPassword = async (req, res) => {
   }
 
   try {
+      // Convert the email variable to lowercase
+      const lowerCaseEmail = email.toLowerCase();
     // Find user by email
-    const existingUser = await User.findOne({ email } );
+    const existingUser = await User.findOne({ email: lowerCaseEmail } );
     
     if (!existingUser) {
       return res.status(404).json({
@@ -136,13 +141,6 @@ const signinWithEmailPassword = async (req, res) => {
       });
     }
     
-    if (existingUser.isVerified == false) {
-      return res.status(404).json({
-        success: false,
-        message: "User not verified.",
-      });
-    }
-
     // Compare provided password with stored hashed password
     const isPasswordValid = await bcrypt.compare(password, existingUser.password);
 
@@ -152,6 +150,15 @@ const signinWithEmailPassword = async (req, res) => {
         message: "Invalid email or password.",
       });
     }
+
+    if (existingUser.isVerified == false) {
+      return res.status(404).json({
+        success: false,
+        message: "User not verified.",
+      });
+    }
+
+
     
 
     // Generate a JWT token
@@ -198,8 +205,10 @@ const signinWithEmail = async (req, res) => {
   }
 
   try {
+          // Convert the email variable to lowercase
+          const lowerCaseEmail = email.toLowerCase();
     // Check if the user exists by email
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: lowerCaseEmail });
 
     if (!user) {
       return res
@@ -222,7 +231,7 @@ const signinWithEmail = async (req, res) => {
     // Send OTP to user's registered email
     const otpSent = await sendOtpEmail(user.email, otp);
 
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email: lowerCaseEmail });
     // Use the `set` method to set the values on the instance
     existingUser.set({
       email_otp: otp, // Update the email_otp field
@@ -322,10 +331,12 @@ const verifyEmailOtp = async (req, res) => {
   }
 
   try {
+          // Convert the email variable to lowercase
+          const lowerCaseEmail = email.toLowerCase();
     // Check if the OTP exists in the database
     const existingUser = await User.findOne({ email_otp: otp });
 
-    if (!existingUser || existingUser.email !== email) {
+    if (!existingUser || existingUser.email !== lowerCaseEmail) {
       return res.status(400).json({ success: false, message: "Invalid OTP." });
     }
 
@@ -437,6 +448,11 @@ const verifyPhoneOtp = async (req, res) => {
     // Check if the OTP matches the saved OTP for the phone
     const user = await User.findOne({ phone });
 
+    if (!user ) {
+      return res.status(400).json({ success: false, message: "User not found" });
+    }
+
+
     if (user.phone_otp !== otp) {
       return res.status(400).json({ success: false, message: "Invalid OTP." });
     }
@@ -528,8 +544,10 @@ const generateEmailOtpForgetPswd = async (req, res) => {
   }
 
   try {
+         // Convert the email variable to lowercase
+         const lowerCaseEmail = email.toLowerCase();
     // Check if the user exists
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: lowerCaseEmail });
 
     if (!user) {
       return res
@@ -546,7 +564,7 @@ const generateEmailOtpForgetPswd = async (req, res) => {
     //   otp,
     //   expires_at: new Date(Date.now() + 15 * 60 * 1000), // OTP expires in 15 minutes
     // });
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email: lowerCaseEmail });
     // Use the `set` method to set the values on the instance
 
     // Send OTP via email
@@ -580,8 +598,10 @@ const forgetPswdVerifyEmailOtp = async (req, res) => {
   }
 
   try {
+         // Convert the email variable to lowercase
+         const lowerCaseEmail = email.toLowerCase();
     // Check if the OTP exists in the database
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email : lowerCaseEmail });
 
     if (!user || user.email_otp !== otp) {
       return res.status(400).json({ success: false, message: "Invalid OTP." });
@@ -608,8 +628,6 @@ const forgetPswdVerifyEmailOtp = async (req, res) => {
     return res.status(500).json({ success: false, message: "Server error." });
   }
 };
-
-// Update password after OTP verification on forget password
 const updatePassword = async (req, res) => {
   const { email, new_password } = req.body;
 
@@ -617,40 +635,36 @@ const updatePassword = async (req, res) => {
   if (!email || !new_password) {
     return res.status(400).json({
       success: false,
-      message: "Email, and new password are required.",
+      message: "Email and new password are required.",
     });
   }
 
   try {
-    // Verify OTP first
+     // Convert the email variable to lowercase
+     const lowerCaseEmail = email.toLowerCase();
+
+    // Find the user by email
     const existingUser = await User.findOne({
-      email,
+       email : lowerCaseEmail
     });
 
-    if(!existingUser){
-      return res
-        .status(404)
-        .json({ success: false, message: "User not found." });
+    if (!existingUser) {
+      return res.status(404).json({ success: false, message: "User not found." });
     }
 
-    // // Check if OTP has expired
-    // if (new Date() > otpRecord.expires_at) {
-    //   return res
-    //     .status(400)
-    //     .json({ success: false, message: "OTP has expired." });
-    // }
+    // Check if the new password matches the old one
+    const isOldPasswordSame = await bcrypt.compare(new_password, existingUser.password);
+
+    if (isOldPasswordSame) {
+      return res.status(400).json({ success: false, message: "New password cannot be the same as the old password." });
+    }
 
     // Hash the new password
     const hashedPassword = await bcrypt.hash(new_password, 10);
 
     // Update the password in the User table
-    // await User.update({ password: hashedPassword }, { where: { email } });
-
-    // // Optionally, delete the OTP record after use
-    // await EmailOtp.destroy({ where: { email } });
-    
     existingUser.set({
-      password: hashedPassword, // Update the email_otp field
+      password: hashedPassword, // Set the new hashed password
     });
     // Save the updated instance back to the database
     await existingUser.save();
@@ -664,6 +678,62 @@ const updatePassword = async (req, res) => {
     return res.status(500).json({ success: false, message: "Server error." });
   }
 };
+
+// // Update password after OTP verification on forget password
+// const updatePassword = async (req, res) => {
+//   const { email, new_password } = req.body;
+
+//   // Validate input
+//   if (!email || !new_password) {
+//     return res.status(400).json({
+//       success: false,
+//       message: "Email, and new password are required.",
+//     });
+//   }
+
+//   try {
+//     // Verify OTP first
+//     const existingUser = await User.findOne({
+//       email,
+//     });
+
+//     if(!existingUser){
+//       return res
+//         .status(404)
+//         .json({ success: false, message: "User not found." });
+//     }
+
+//     // // Check if OTP has expired
+//     // if (new Date() > otpRecord.expires_at) {
+//     //   return res
+//     //     .status(400)
+//     //     .json({ success: false, message: "OTP has expired." });
+//     // }
+
+//     // Hash the new password
+//     const hashedPassword = await bcrypt.hash(new_password, 10);
+
+//     // Update the password in the User table
+//     // await User.update({ password: hashedPassword }, { where: { email } });
+
+//     // // Optionally, delete the OTP record after use
+//     // await EmailOtp.destroy({ where: { email } });
+    
+//     existingUser.set({
+//       password: hashedPassword, // Update the email_otp field
+//     });
+//     // Save the updated instance back to the database
+//     await existingUser.save();
+
+//     return res.status(200).json({
+//       success: true,
+//       message: "Password updated successfully.",
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ success: false, message: "Server error." });
+//   }
+// };
 
 
 module.exports = {

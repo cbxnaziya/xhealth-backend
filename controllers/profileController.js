@@ -13,17 +13,26 @@ const profileSave = async (req, res) => {
 // Save Profile API
  
     try {
+      
       const { userId, gender, nickname, religion, mood, religious } = req.body;
       
   
       // Validate required fields
-      if (!userId || !gender || !nickname ||  !religion ||  !mood ||  !religious ) {
+      if ( !gender || !nickname ||  !religion ||  !mood ||  !religious ) {
         return res.status(400).json({ error: 'All fields are required.' });
       }
+
+          // Check if the profile already exists for this userId
+    const existingProfile = await Profile.findOne({ userId: req.id });
+
+    if (existingProfile) {
+      // If a profile already exists, return a message to inform the user
+      return res.status(400).json({ error: 'Profile already created for this user.' });
+    }
   
       // Create a new profile instance
       const newProfile = new Profile({
-        userId,
+        userId: req.id,
         gender,
         nickname,
         religion,
