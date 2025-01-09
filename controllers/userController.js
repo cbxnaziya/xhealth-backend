@@ -11,5 +11,25 @@ const getAllUsers = async (req, res) => {
     res.status(500).json({ success: false, message: 'Server Error' });
   }
 };
+// Update user by ID
+const updateUser = async (req, res) => {
+    const userData = req.body; // Extract updated user data from the request body
+console.log("user", userData,req.id);
 
-module.exports = { getAllUsers };
+
+    try {
+      // Find user by ID and update their information
+      const user = await User.findByIdAndUpdate(req.id, userData);
+  
+      if (!user) {
+        return res.status(404).json({ success: false, message: 'User not found' });
+      }
+  
+      res.status(200).json({ success: true, message: 'User Updated Successfully' });
+    } catch (error) {
+      console.error('Error updating user:', error);
+      res.status(500).json({ success: false, message: 'Server Error' });
+    }
+  };
+
+module.exports = { getAllUsers,updateUser };

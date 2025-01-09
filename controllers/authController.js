@@ -15,6 +15,7 @@ const signup = async (req, res) => {
     preferred_language,
     device_token,
     device_id,
+    gender,
   } = req.body;
 
   // Input validation
@@ -25,7 +26,8 @@ const signup = async (req, res) => {
     !phone ||
     !preferred_language ||
     !device_token ||
-    !device_id
+    !device_id ||
+    !gender
   ) {
     return res
       .status(400)
@@ -75,6 +77,7 @@ const signup = async (req, res) => {
       preferred_language,
       device_token,
       device_id,
+      gender,
       
     });
 

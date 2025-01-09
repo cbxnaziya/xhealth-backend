@@ -6,6 +6,11 @@ const profileSchema = new mongoose.Schema({
   nickname: { type: String },
   religion: { type: String },
   mood: { type: String },
+  emotion: { type: String },
+  feeling: { type: String },
+  goal: { type: String },
+  experience: { type: String },
+  trauma: { type: String },
   religious: { type: Boolean },
   timestamp: { type: Date, default: Date.now },
 });

@@ -15,6 +15,7 @@ const userSchema = new mongoose.Schema({
   token: { type: String },
   isVerified: { type: Boolean, default: false }, // phone verification status
   role: { type: String, enum: ["admin", "user"], default: "user" },
+  gender: { type: String, enum: ['Male', 'Female', 'Other'] },
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);
