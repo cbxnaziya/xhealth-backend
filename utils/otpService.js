@@ -7,6 +7,7 @@ const client = require("twilio")(process.env.TWILIO_SID, process.env.TWILIO_AUTH
 
 
 const sendOtpEmail = async (email, otp) => {
+
   // Create reusable transporter object using SMTP transport
   const transporter = nodemailer.createTransport({
     host: "mail.cyberx-infosystem.us",

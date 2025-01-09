@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getAllUsers, updateUser } = require('../controllers/userController');
+const { getAllUsers, updateUser, verifyOtp } = require('../controllers/userController');
 const adminMiddleware = require('../middleware/adminMiddleware');
 const authMiddleware = require('../middleware/authMiddleware');
 const {   deleteUser, getUserById } = require('../controllers/admin/userController');
@@ -10,6 +10,8 @@ router.get('/',authMiddleware, adminMiddleware, getAllUsers);
 router.get('/:id',authMiddleware, adminMiddleware, getUserById);
 // router.put('/update',authMiddleware, adminMiddleware, updateUser );
 router.put('/update',authMiddleware, updateUser );
+// Verify OTP route
+router.post('/verify-otp', authMiddleware, verifyOtp);
 router.delete('/remove',authMiddleware, adminMiddleware, deleteUser);
 
 module.exports = router;
