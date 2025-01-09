@@ -16,6 +16,7 @@ const signup = async (req, res) => {
     device_token,
     device_id,
     gender,
+    country_code,
   } = req.body;
 
   // Input validation
@@ -27,7 +28,8 @@ const signup = async (req, res) => {
     !preferred_language ||
     !device_token ||
     !device_id ||
-    !gender
+    !gender ||
+    !country_code
   ) {
     return res
       .status(400)
@@ -49,7 +51,7 @@ const signup = async (req, res) => {
   try {
       // Convert the email variable to lowercase
            const lowerCaseEmail = email.toLowerCase();
-    const existingEmail = await User.findOne({ email:lowerCaseEmail });
+           const existingEmail = await User.findOne({ email:lowerCaseEmail });
 
     if (existingEmail?.email === lowerCaseEmail) {
       return res
@@ -78,6 +80,7 @@ const signup = async (req, res) => {
       device_token,
       device_id,
       gender,
+      country_code,
       
     });
 

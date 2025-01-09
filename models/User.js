@@ -16,6 +16,10 @@ const userSchema = new mongoose.Schema({
   isVerified: { type: Boolean, default: false }, // phone verification status
   role: { type: String, enum: ["admin", "user"], default: "user" },
   gender: { type: String, enum: ['Male', 'Female', 'Other'] },
+  new_email: { type: String }, // store new email until it is verified
+  new_phone: { type: String }, // store new phone until it is verified
+  new_country_code: { type: String }, // store new phone until it is verified
+  country_code: { type: String }, // store new phone until it is verified
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);
