@@ -36,7 +36,7 @@ const getAllUsers = async (req, res) => {
 
 
 const updateUser = async (req, res) => {
-  const { email, phone,country_code, ...restData } = req.body; // Extract email and phone from request body
+  const { email, phone,country_code,profileImage, ...restData } = req.body; // Extract email and phone from request body
   const userId = req.id; // Assuming user ID is in `req.id`
 
   try {
@@ -76,6 +76,16 @@ const updateUser = async (req, res) => {
       }
       user.new_phone = phone; // Save OTP in the database
     }
+
+     // Handle Base64 profile image
+     if (profileImage) {
+      // Ensure the Base64 string is valid and starts with "data:image/"
+      if (!/^data:image\/[a-zA-Z]+;base64,/.test(profileImage)) {
+        return res.status(400).json({ success: false, message: "Invalid image format." });
+      }
+      user.profile_image = profileImage; // Save Base64 string to the database
+    }
+
 
     // Update other user details
     Object.assign(user, restData);
@@ -130,5 +140,29 @@ const updateUser = async (req, res) => {
 };
 
 
+const getUser = async (req, res) => {
+  const userId = req.id; // Assuming `req.id` contains the authenticated user's ID
 
-module.exports = { getAllUsers,updateUser,verifyOtp };
+  try {
+    // Find the user by their ID
+    const user = await User.findById(userId).select("-password -token"); // Exclude sensitive fields like password
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    // Send user data as a response
+    res.status(200).json({
+      success: true,
+      message: "User retrieved successfully",
+      user,
+    });
+  } catch (error) {
+    console.error("Error retrieving user:", error);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
+
+
+module.exports = { getAllUsers,updateUser,verifyOtp,getUser };

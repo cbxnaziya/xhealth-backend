@@ -94,4 +94,24 @@ const updateProfile = async (req, res) => {
   }
 };
 
-module.exports = { profileSave, updateProfile };
+
+const getProfile = async (req, res) => {
+  try {
+    // Find the profile of the user by userId
+    const profile = await Profile.findOne({ userId: req.id });
+
+    // If no profile is found, return an error response
+    if (!profile) {
+      return res.status(404).json({  success: false, message: "Profile not found." });
+    }
+
+    // Send the profile data as the response
+    res.status(200).json({ success: true, profile });
+  } catch (error) {
+    console.error("Error fetching profile:", error);
+    res.status(500).json({    success: false, error: "An error occurred while fetching the profile." });
+  }
+};
+
+
+module.exports = { profileSave, updateProfile,getProfile };
