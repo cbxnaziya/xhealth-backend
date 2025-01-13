@@ -21,7 +21,7 @@ const signup = async (req, res) => {
 
   // Input validation
   if (
-    !name ||
+    !name || name==='' ||
     !email ||
     !password ||
     !phone ||
@@ -88,13 +88,7 @@ const signup = async (req, res) => {
     return res.status(201).json({
       success: true,
       message: "User registered successfully.",
-      // user: {
-      //   id: newUser.id,
-      //   name: newUser.name,
-      //   email: newUser.email,
-      //   phone: newUser.phone,
-      //   preferred_language: newUser.preferred_language,
-      // },
+
     });
   } catch (error) {
     console.error("Error during user signup:", error);
@@ -112,12 +106,8 @@ const signup = async (req, res) => {
       return res.status(400).json({ success: false, message });
     }
 
-    // Handle other server errors
-    return res.status(500).json({
-      success: false,
-      message: "Server error. Please try again later.",
-      error: error.message,
-    });
+
+
   }
 };
 
@@ -197,8 +187,6 @@ console.log("existingUser",existingUser);
     });
   }
 };
-
-
 
 //done
 const signinWithEmail = async (req, res) => {
@@ -689,62 +677,6 @@ const updatePassword = async (req, res) => {
     return res.status(500).json({ success: false, message: "Server error." });
   }
 };
-
-// // Update password after OTP verification on forget password
-// const updatePassword = async (req, res) => {
-//   const { email, new_password } = req.body;
-
-//   // Validate input
-//   if (!email || !new_password) {
-//     return res.status(400).json({
-//       success: false,
-//       message: "Email, and new password are required.",
-//     });
-//   }
-
-//   try {
-//     // Verify OTP first
-//     const existingUser = await User.findOne({
-//       email,
-//     });
-
-//     if(!existingUser){
-//       return res
-//         .status(404)
-//         .json({ success: false, message: "User not found." });
-//     }
-
-//     // // Check if OTP has expired
-//     // if (new Date() > otpRecord.expires_at) {
-//     //   return res
-//     //     .status(400)
-//     //     .json({ success: false, message: "OTP has expired." });
-//     // }
-
-//     // Hash the new password
-//     const hashedPassword = await bcrypt.hash(new_password, 10);
-
-//     // Update the password in the User table
-//     // await User.update({ password: hashedPassword }, { where: { email } });
-
-//     // // Optionally, delete the OTP record after use
-//     // await EmailOtp.destroy({ where: { email } });
-    
-//     existingUser.set({
-//       password: hashedPassword, // Update the email_otp field
-//     });
-//     // Save the updated instance back to the database
-//     await existingUser.save();
-
-//     return res.status(200).json({
-//       success: true,
-//       message: "Password updated successfully.",
-//     });
-//   } catch (error) {
-//     console.error(error);
-//     return res.status(500).json({ success: false, message: "Server error." });
-//   }
-// };
 
 
 module.exports = {

@@ -12,7 +12,7 @@ const profileSchema = new mongoose.Schema({
   experience: { type: String },
   trauma: { type: String },
   religious: { type: Boolean },
-  timestamp: { type: Date, default: Date.now },
-});
+  // timestamp: { type: Date, default: Date.now },
+}, { timestamps: true });
 
 module.exports = mongoose.model('Profile', profileSchema);

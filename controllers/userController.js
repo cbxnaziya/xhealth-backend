@@ -1,4 +1,5 @@
 const User = require('../models/User'); // Assuming you have a User model
+const { generateOtp } = require('../utils/function');
 const { sendOtpEmail, sendOtpPhone } = require('../utils/otpService');
 
 // Fetch all users
@@ -53,7 +54,8 @@ const updateUser = async (req, res) => {
         return res.status(400).json({ success: false, message: 'Email is already in use.' });
       }
 
-      const emailOtp = Math.floor(1000 + Math.random() * 9000); // Generate OTP
+      // const emailOtp = Math.floor(1000 + Math.random() * 9000); // Generate OTP
+      const emailOtp = generateOtp();
  
             
       await sendOtpEmail(email, emailOtp); // Send OTP to new email
@@ -67,7 +69,8 @@ const updateUser = async (req, res) => {
       if (phoneExists) {
         return res.status(400).json({ success: false, message: 'Phone number is already in use.' });
       }
-      const phoneOtp = Math.floor(1000 + Math.random() * 9000); // Generate OTP
+      // const phoneOtp = Math.floor(1000 + Math.random() * 9000); // Generate OTP
+      const phoneOtp = generateOtp();
   
       await sendOtpPhone(phoneOtp,phone,country_code); // Send OTP to new phone
       user.phone_otp = phoneOtp; // Save OTP in the database
