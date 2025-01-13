@@ -178,6 +178,7 @@ const signinWithEmailPassword = async (req, res) => {
     existingUser.set({
       token: token, // Update the email_otp field
     });
+console.log("existingUser",existingUser);
 
     // Save the updated instance back to the database
     await existingUser.save();
@@ -185,6 +186,7 @@ const signinWithEmailPassword = async (req, res) => {
       success: true,
       message: "Login successful.",
       token, // Return the JWT token
+      isProfileQuestions: existingUser.isProfileQuestions,
     
     });
   } catch (error) {
@@ -373,6 +375,7 @@ const verifyEmailOtp = async (req, res) => {
       success: true,
       message: "OTP verified successfully.",
       token, // Return the JWT token
+      isProfileQuestions: existingUser.isProfileQuestions,
     });
   } catch (error) {
     console.error(error);
@@ -484,7 +487,9 @@ const verifyPhoneOtp = async (req, res) => {
 
     return res
       .status(200)
-      .json({ success: true, message: "Phone OTP verified successfully.",token });
+      .json({ success: true, message: "Phone OTP verified successfully.",token,
+        isProfileQuestions: user.isProfileQuestions,
+       });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ success: false, message: "Server error." });

@@ -41,10 +41,20 @@ const profileSave = async (req, res) => {
       experience,
       trauma,
       religious,
+      // isProfileQuestions:true,
     });
 
     // Save the profile to the database
     const savedProfile = await newProfile.save();
+
+
+    // Update the user collection to set isProfileQuestions to true
+    const updateResponse = await User.updateOne(
+      { _id: req.id },
+      { $set: { isProfileQuestions: true } }
+    );
+
+
 
     // Send success response
     res

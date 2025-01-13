@@ -21,6 +21,8 @@ const userSchema = new mongoose.Schema({
   new_country_code: { type: String }, // store new phone until it is verified
   country_code: { type: String }, // store new phone until it is verified
   profile_image: { type: String }, 
+  isProfileQuestions: { type: Boolean, default:false },
+
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);
