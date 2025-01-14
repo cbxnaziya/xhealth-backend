@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const questionSchema = new mongoose.Schema({
+const contentSchema = new mongoose.Schema({
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true },
     content: [
         {
@@ -21,23 +21,4 @@ const questionSchema = new mongoose.Schema({
     ],
 }, { timestamps: true });
 
-module.exports = mongoose.model('Question', questionSchema);
-
-// const mongoose = require('mongoose');
-
-// const questionSchema = new mongoose.Schema({
-//     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true },
-//     questions: [
-//         {
-//             question: { type: String, required: true },
-//             options: [
-//                 {
-//                     option: { type: String, required: true },
-//                     weightage: { type: Number, required: true },
-//                 }
-//             ],
-//         }
-//     ],
-// }, { timestamps: true });
-
-// module.exports = mongoose.model('Question', questionSchema);
+module.exports = mongoose.model('Content', contentSchema);

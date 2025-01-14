@@ -113,6 +113,8 @@ const signup = async (req, res) => {
 
 
 const signinWithEmailPassword = async (req, res) => {
+
+  // compare here if user is admin then make consise easy login
   const { email, password } = req.body;
 
 

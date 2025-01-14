@@ -36,7 +36,7 @@ const getAllUsers = async (req, res) => {
 //   };
 
 
-const updateUser = async (req, res) => {
+  const updateUser = async (req, res) => {
   const { email, phone,country_code,profileImage, ...restData } = req.body; // Extract email and phone from request body
   const userId = req.id; // Assuming user ID is in `req.id`
 

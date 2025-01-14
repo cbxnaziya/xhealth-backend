@@ -9,6 +9,7 @@ const userRoutes = require('./routes/userRoutes');
 const adminAuthRoutes = require('./routes/admin/adminAuthRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
 const questionRoutes = require('./routes/questionRoutes');
+const contentRoutes = require('./routes/contentRoutes');
 
 const cors = require('cors')
 
@@ -29,8 +30,9 @@ app.use('/api/auth', authRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/mood', moodRoutes);
 app.use('/api/users', userRoutes);
-app.use('/categories', categoryRoutes);
-app.use('/questions', questionRoutes);
+app.use('/api/categories', categoryRoutes);
+app.use('/api/questions', questionRoutes);
+app.use('/api/content', contentRoutes);
 
 // Admin
 app.use('/api/admin/auth', adminAuthRoutes);
