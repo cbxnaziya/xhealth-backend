@@ -14,10 +14,10 @@ const profileSave = async (req, res) => {
     const {  gender, nickname, religion, mood,  emotion,feeling, goal, experience,trauma, religious } = req.body;
 
     // Validate required fields
-    if ( !gender ||  !nickname || !religion ||  !mood || !emotion || !feeling || !goal ||  !experience ||  !trauma || !religious ) {
+    if ( !gender ||  !nickname || !religion ||  !mood || !emotion || !feeling || !goal ||  !experience ||  !trauma  ) {
       return res.status(400).json({ error: "All fields are required." });
     }
-
+ 
     // Check if the profile already exists for this userId
     const existingProfile = await Profile.findOne({ userId: req.id });
 

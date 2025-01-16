@@ -28,7 +28,7 @@ const getAllQuestions = async (req, res) => {
 };
 
 // Get question by ID
-const getQuestionById = async (req, res) => {
+const getQuestion = async (req, res) => {
     try {
         const { id } = req.params;
         const question = await Content.findById(id).populate('category');
@@ -75,7 +75,7 @@ const deleteQuestion = async (req, res) => {
 module.exports = {
     createQuestion,
     getAllQuestions,
-    getQuestionById,
+    getQuestion,
     updateQuestion,
     deleteQuestion,
 };

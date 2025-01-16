@@ -170,7 +170,7 @@ const signinWithEmailPassword = async (req, res) => {
     existingUser.set({
       token: token, // Update the email_otp field
     });
-console.log("existingUser",existingUser);
+
 
     // Save the updated instance back to the database
     await existingUser.save();
@@ -629,6 +629,7 @@ const forgetPswdVerifyEmailOtp = async (req, res) => {
     return res.status(500).json({ success: false, message: "Server error." });
   }
 };
+
 const updatePassword = async (req, res) => {
   const { email, new_password } = req.body;
 

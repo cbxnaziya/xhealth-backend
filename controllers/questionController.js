@@ -42,20 +42,49 @@ const getQuestionById = async (req, res) => {
 };
 
 // Update question by ID
+// const updateQuestion = async (req, res) => {
+//     try {
+//         const { id } = req.params;
+//         const updatedData = req.body;
+
+//         const updatedQuestion = await Question.findByIdAndUpdate( {_id:id}, updatedData, { new: true, runValidators: true });
+//         if (!updatedQuestion) {
+//             return res.status(404).json({ message: 'Question not found' });
+//         }
+//         res.status(200).json(updatedQuestion);
+//     } catch (error) {
+//         res.status(500).json({ message: 'Error updating question', error });
+//     }
+// };
 const updateQuestion = async (req, res) => {
     try {
+        console.log("test")
         const { id } = req.params;
-        const updatedData = req.body;
+        const { content } = req.body; // Extract the 'content' field from the request body
 
-        const updatedQuestion = await Question.findByIdAndUpdate(id, updatedData, { new: true, runValidators: true });
-        if (!updatedQuestion) {
-            return res.status(404).json({ message: 'Question not found' });
+        // Ensure content is provided
+        if (!content || !Array.isArray(content)) {
+            return res.status(400).json({ message: "Invalid content data. It must be an array." });
         }
+
+        // Update only the content field
+        const updatedQuestion = await Question.findByIdAndUpdate(
+            { _id: id },
+            { content }, // Update only the content field
+            { new: true, runValidators: true }  
+        );
+
+        if (!updatedQuestion) {
+            return res.status(404).json({ message: "Question not found" });
+        }
+
         res.status(200).json(updatedQuestion);
     } catch (error) {
-        res.status(500).json({ message: 'Error updating question', error });
+        res.status(500).json({ message: "Error updating question", error });
     }
 };
+
+
 
 // Delete question by ID
 const deleteQuestion = async (req, res) => {
