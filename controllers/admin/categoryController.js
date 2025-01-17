@@ -37,12 +37,10 @@ const getCategory = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 }
-
-
 const updateCategory =  async (req, res) => {
     try {
-        const { id } = req.params;
-        const { name, status } = req.body;
+        // const { id } = req.params;
+        const { id, name, status } = req.body;
 
       if(!name){
         return  res.status(404).json({success:false, message:"Category name is required."})

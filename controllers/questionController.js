@@ -58,7 +58,7 @@ const getQuestionById = async (req, res) => {
 // };
 const updateQuestion = async (req, res) => {
     try {
-        console.log("test")
+
         const { id } = req.params;
         const { content } = req.body; // Extract the 'content' field from the request body
 

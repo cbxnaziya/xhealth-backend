@@ -10,10 +10,13 @@ const {   deleteUser, getUserById } = require('../controllers/admin/userControll
 // router.get('/:id',authMiddleware, adminMiddleware, getUserById);
 
 router.get('/',authMiddleware, getUser);
-// router.put('/update',authMiddleware, adminMiddleware, updateUser );
 router.put('/update',authMiddleware, updateUser );
-// Verify OTP route
 router.post('/verify-otp', authMiddleware, verifyOtp);
 router.delete('/remove',authMiddleware, adminMiddleware, deleteUser);
+
+
+// admin
+
+// router.put('/update',authMiddleware, adminMiddleware, updateUser );
 
 module.exports = router;

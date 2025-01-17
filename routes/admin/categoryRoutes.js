@@ -18,10 +18,10 @@ router.post('/add',addCategory );
 
 
 // Update category
-router.put('/:id',updateCategory);
+router.put('/update',updateCategory);
 
 // Delete category
-router.delete('/:id', async (req, res) => {
+router.delete('/remove', async (req, res) => {
     try {
         const { id } = req.params;
         await Category.findByIdAndDelete(id);

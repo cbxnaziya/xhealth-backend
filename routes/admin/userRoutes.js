@@ -12,5 +12,7 @@ router.get('/',authMiddleware, adminMiddleware, getAllUsers);
 router.get('/:id',authMiddleware, adminMiddleware, getUserById);
 router.put('/update',authMiddleware, adminMiddleware, updateUser);
 router.delete('/remove',authMiddleware, adminMiddleware, deleteUser );
+// router.delete('/remove', deleteUser );
+
 
 module.exports = router;

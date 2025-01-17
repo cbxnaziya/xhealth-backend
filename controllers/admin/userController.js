@@ -27,7 +27,7 @@ const getUserById = async (req, res) => {
       res.status(500).json({ success: false, message: 'Server Error' });
     }
   };
-  
+    
 // Update user by ID
 const updateUser = async (req, res) => {
     const userData = req.body; // Extract updated user data from the request body
@@ -48,12 +48,18 @@ const updateUser = async (req, res) => {
   
 // Delete user by ID
 const deleteUser = async (req, res) => {
-    const { id } = req; // Extract user ID from the request parameters
+    const { user_id } = req.query; // Extract user ID from the request parameters
+    console.log("testing",req);
+    console.log(req.param);
     
   
     try {
       // Find and delete the user by ID
-      const user = await User.findByIdAndDelete(id);
+
+
+      
+      const user = await User.findByIdAndDelete({_id: user_id});
+  console.log(user);
   
       if (!user) {
         return res.status(404).json({ success: false, message: 'User not found' });
