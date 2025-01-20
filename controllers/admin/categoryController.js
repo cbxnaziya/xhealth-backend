@@ -14,12 +14,11 @@ const  addCategory =  async (req, res) => {
 
         const category = new Category({ name, status });
         await category.save();
-        res.status(201).json({ message: 'Category added successfully', category });
+        res.status(201).json({ status: true, message: 'Category added successfully' });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
-
 const getCategories = async (req, res) => {
     try {
         const categories = await Category.find();

@@ -5,7 +5,7 @@ const { sendOtpEmail, sendOtpPhone } = require('../utils/otpService');
 // Fetch all users
 const getAllUsers = async (req, res) => {
   try {
-    console.log("hii");
+   
     
     const users = await User.find({role:"user"}); // Example: Fetch all users from the database
 
