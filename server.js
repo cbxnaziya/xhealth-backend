@@ -39,9 +39,11 @@ app.use('/api/mood', moodRoutes);
 // Admin
 const categoryRoutes = require('./routes/admin/categoryRoutes');
 const adminUserRoutes = require('./routes/admin/userRoutes');
+const adminProfileRoutes = require('./routes/admin/profileRoutes');
 app.use('/api/admin/auth', adminAuthRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/user', adminUserRoutes);
+app.use('/api/profiles', adminProfileRoutes);
 
 
 app.get("/abcd",async(req,res)=>{
