@@ -109,8 +109,7 @@ const signup = async (req, res) => {
         error: error.message,
       });
     }
-  };
-
+};
 const signinWithEmailPassword = async (req, res) => {
   const { email, password } = req.body;
 

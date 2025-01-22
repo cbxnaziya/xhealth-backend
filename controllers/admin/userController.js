@@ -26,8 +26,7 @@ const getUserById = async (req, res) => {
       console.error('Error fetching user by ID:', error);
       res.status(500).json({ success: false, message: 'Server Error' });
     }
-  };
-    
+  };    
 // Update user by ID
 const updateUser = async (req, res) => {
     const userData = req.body; // Extract updated user data from the request body
@@ -44,8 +43,7 @@ const updateUser = async (req, res) => {
       console.error('Error updating user:', error);
       res.status(500).json({ success: false, message: 'Server Error' });
     }
-  };
-  
+  };  
 // Delete user by ID
 const deleteUser = async (req, res) => {
     const { user_id } = req.query; // Extract user ID from the request parameters
@@ -70,7 +68,7 @@ const deleteUser = async (req, res) => {
       console.error('Error deleting user:', error);
       res.status(500).json({ success: false, message: 'Server Error' });
     }
-  };
+};
   
 
 module.exports = { getAllUsers,getUserById ,updateUser ,deleteUser };
