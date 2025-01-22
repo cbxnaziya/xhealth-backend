@@ -46,17 +46,21 @@ app.use('/api/content', contentRoutes);
 // app.use('/api/mood', moodRoutes);
 
 
-
 // Admin
 const adminAuthRoutes = require('./routes/admin/adminAuthRoutes');
 const categoryRoutes = require('./routes/admin/categoryRoutes');
 const adminUserRoutes = require('./routes/admin/userRoutes');
 const adminProfileRoutes = require('./routes/admin/profileRoutes');
+const profileQuestionsRoutes = require('./routes/admin/profileQuestionsRoutes');
+const adminContentRoutes = require('./routes/admin/contentRoutes');
+
 // app.use('/api/admin/auth', adminAuthRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/user', adminUserRoutes);
 app.use('/api/profiles', adminProfileRoutes);
+app.use('/api/profiles-questions', profileQuestionsRoutes);
 
+app.use('/api/contents', adminContentRoutes);
 
 app.get("/abcd",async(req,res)=>{
     return res.status(200).json({message:"Hello"})
