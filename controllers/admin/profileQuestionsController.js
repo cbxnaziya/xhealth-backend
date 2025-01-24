@@ -1,5 +1,6 @@
 // const question = require("../../models/question");
 
+const { Message } = require("twilio/lib/twiml/MessagingResponse");
 const ProfileQuestion = require("../../models/profileQuestion");
 
 // const getProfileQuestions = async (req, res) => {
@@ -48,9 +49,9 @@ exports.createProfileQuestion = async (req, res) => {
   try {
     const { question, meta, options } = req.body;
 
-    if (!options || options.length === 0) {
-      return res.status(400).json({ error: "Options are required." });
-    }
+    // if (!options || options.length === 0) {
+    //   return res.status(400).json({ error: "Options are required." });
+    // }
 
     // Calculate remark for each option
     const remarkValue = 100 / options.length;
@@ -108,10 +109,10 @@ exports.updateProfileQuestion = async (req, res) => {
     );
 
     if (!updatedQuestion) {
-      return res.status(404).json({ error: "Profile question not found." });
+      return res.status(404).json();
     }
 
-    res.status(200).json(updatedQuestion);
+    res.status(200).json({ status:true,message: "Profile question updated successfully" });
   } catch (error) {
     res.status(500).json({ error: "Failed to update profile question." });
   }

@@ -14,7 +14,7 @@ const router = express.Router();
 
 // router.get('/',authMiddleware, getProfileQuestions);
 // Route for creating a profile question
-router.post("/create", createProfileQuestion);
+router.post("/add", createProfileQuestion);
 
 // Route for getting all profile questions
 router.get("/all", getProfileQuestions);
