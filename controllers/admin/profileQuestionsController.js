@@ -88,11 +88,12 @@ exports.getProfileQuestions = async (req, res) => {
 exports.updateProfileQuestion = async (req, res) => {
   try {
     // const { id } = req.params;
-    const { id, question, meta, options } = req.body;
+    const { id, question, meta, options  } = req.body;
 
-    if (!options || options.length === 0) {
-      return res.status(400).json({ error: "Options are required." });
-    }
+   
+    // if (!options || options.length === 0) {
+    //   return res.status(400).json({ error: "Options are required." });
+    // }
 
     // Recalculate remark for each option
     const remarkValue = 100 / options.length;
@@ -104,7 +105,8 @@ exports.updateProfileQuestion = async (req, res) => {
 
     const updatedQuestion = await ProfileQuestion.findByIdAndUpdate(
       id,
-      { question, meta, options: updatedOptions },
+      { question, meta, options: options },
+      // { question, meta, options: updatedOptions },
       { new: true }
     );
 
