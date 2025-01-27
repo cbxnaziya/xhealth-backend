@@ -26,7 +26,7 @@ const updateProfile = async (req, res) => {
     try {
         const { ...fieldsToUpdate } = req.body;
         const { id } = req.body;
-        console.log(id);
+
 
 
         // Validate userId
@@ -40,7 +40,7 @@ const updateProfile = async (req, res) => {
             { $set: fieldsToUpdate }, // Update only provided fields
             { new: true } // Return the updated document
         );
-        console.log("updatedProfile", updatedProfile);
+  
 
 
         if (!updatedProfile) {

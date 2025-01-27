@@ -7,7 +7,7 @@ const getContents = async (req, res) => {
     try {
         // Find the profile of the user by userId
         const profiles = await question.find();
-console.log("profiles",profiles);
+
 
         // If no profile is found, return an error response
         if (!profiles) {

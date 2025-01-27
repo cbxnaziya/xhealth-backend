@@ -47,8 +47,7 @@ const updateUser = async (req, res) => {
 // Delete user by ID
 const deleteUser = async (req, res) => {
     const { user_id } = req.query; // Extract user ID from the request parameters
-    console.log("testing",req);
-    console.log(req.param);
+
     
   
     try {
